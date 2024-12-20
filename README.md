@@ -1,5 +1,5 @@
 # SPIRL Terraform Provider
-
+  
 This module is a [Terraform](https://www.terraform.io) provider for SPIRL built on the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework). It contains the plugin, documentation, and examples needed to use SPIRL natively in Terraform:
 
 - Terraform Provider, Resources, and Data Sources (`internal/provider`)
