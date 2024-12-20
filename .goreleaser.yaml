@@ -1,0 +1,67 @@
+# The documentation at https://goreleaser.com
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+version: 2
+project_name: terraform-provider-spirl
+
+monorepo:
+  tag_prefix: "terraform-provider-spirl-"
+  dir: terraform-provider-spirl
+
+builds:
+  - builder: "prebuilt"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    prebuilt:
+      path: "tmp/terraform-provider-spirl/terraform-provider-spirl-v{{ .Version }}-{{ .Os }}-{{ .Arch }}/terraform-provider-spirl{{ .Ext }}"
+    binary: "{{ .ProjectName }}_v{{ .Version }}"
+archives:
+  - id: terraform-provider-spirl
+    format: zip
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+checksum:
+  extra_files:
+    - glob: "terraform-registry-manifest.json"
+      name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
+  name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
+  algorithm: sha256
+signs:
+  - artifacts: checksum
+    args:
+      # if you are using this in a GitHub action or some other automated pipeline, you
+      # need to pass the batch flag to indicate its not interactive.
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}" # set this environment variable for your signing key
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
+release:
+  extra_files:
+    - glob: "terraform-registry-manifest.json"
+      name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
+  draft: true
+  replace_existing_draft: true
+  replace_existing_artifacts: true
+  github: # Release in public repository that the terraform registry can access
+    owner: spirl
+    name: terraform-provider-spirl
+  tag: "{{ .CurrentTag }}"
+  name_template: "{{ .CurrentTag }}"
+changelog:
+  disable: true
+blobs:
+  - provider: s3
+    bucket: spirl-releases
+    directory: terraform-provider-spirl/v{{ .Version }}
+    region: us-west-2
+    ids:
+      - terraform-provider-spirl
