@@ -54,8 +54,6 @@ release:
   github: # Release in public repository that the terraform registry can access
     owner: spirl
     name: terraform-provider-spirl
-  tag: "{{ .CurrentTag }}"
-  name_template: "{{ .CurrentTag }}"
 changelog:
   disable: true
 blobs:
