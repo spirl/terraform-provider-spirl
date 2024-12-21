@@ -4,9 +4,9 @@
 version: 2
 project_name: terraform-provider-spirl
 
-monorepo:
-  tag_prefix: "terraform-provider-spirl-"
-  dir: terraform-provider-spirl
+#monorepo:
+#  tag_prefix: "terraform-provider-spirl-"
+#  dir: terraform-provider-spirl
 
 builds:
   - builder: "prebuilt"
