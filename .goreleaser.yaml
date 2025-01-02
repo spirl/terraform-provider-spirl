@@ -1,0 +1,80 @@
+# The documentation at https://goreleaser.com
+# yaml-language-server: $schema=https://goreleaser.com/static/schema-pro.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+version: 2
+project_name: terraform-provider-spirl
+
+# Notes
+# Based on https://github.com/hashicorp/terraform-provider-scaffolding-framework/blob/main/.goreleaser.yml
+#
+# This configuration doesn't use the monorepo feature of GoReleaser. Because we wants
+# the generated docs and examples for the provider to be replicated to the public
+# repository, this goreleaser configuration runs from the public reposititory in
+# the github action workflow.
+
+builds:
+  - builder: "prebuilt"
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    prebuilt:
+      path: "tmp/terraform-provider-spirl/terraform-provider-spirl-v{{ .Version }}-{{ .Os }}-{{ .Arch }}/terraform-provider-spirl{{ .Ext }}"
+    binary: "{{ .ProjectName }}_v{{ .Version }}"
+archives:
+  - id: terraform-provider-spirl
+    format: zip
+    # This is the format that terraform registries expect
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - id: terraform-provider-spirl-s3
+    format: tar.gz
+    # This is the format that we use for other assets on S3
+    name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+checksum:
+  extra_files:
+    - glob: "terraform-registry-manifest.json"
+      name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
+  name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
+  algorithm: sha256
+signs:
+  - artifacts: checksum
+    args:
+      # if you are using this in a GitHub action or some other automated pipeline, you
+      # need to pass the batch flag to indicate its not interactive.
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}" # set this environment variable for your signing key
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
+release:
+  extra_files:
+    - glob: "terraform-registry-manifest.json"
+      name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
+  draft: false
+  replace_existing_draft: true
+  replace_existing_artifacts: true
+  github: # Github actions runs in the monorepo, we want to public to the public repository
+    owner: spirl
+    name: terraform-provider-spirl
+  header: |
+    ## Release {{ .Version }} ({{ .Date }})
+
+    [Please see the Release Notes for more information.](https://d.spirl.com/releases/terraform-provider-spirl)
+changelog:
+  disable: true
+blobs:
+  - provider: s3
+    bucket: spirl-releases
+    directory: terraform-provider-spirl/v{{ .Version }}
+    region: us-west-2
+    ids:
+      - terraform-provider-spirl-s3
+      # Upload a copy of the zip files we attach to github just in case we need to audit an issue later
+      - terraform-provider-spirl
