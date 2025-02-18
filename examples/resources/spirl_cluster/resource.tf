@@ -20,3 +20,14 @@ resource "spirl_cluster" "my_cluster" {
   platform        = "k8s"
   public_key      = file("cluster-public-key.pem")
 }
+
+
+# A cluster of linux nodes can be created by setting the platform to "linux".
+# This is a node-group within spirlctl.
+resource "spirl_cluster" "my_cluster" {
+  trust_domain_id = spirl_trust_domain.my_domain.id
+  name            = "linux-cluster"
+  description     = "A nodepool cluster created with terraform"
+  platform        = "linux"
+  public_key      = file("cluster-public-key.pem")
+}
