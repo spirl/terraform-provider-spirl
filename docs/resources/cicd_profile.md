@@ -42,3 +42,12 @@ resource "spirl_cicd_profile" "test" {
 
 - `claims` (List of String) The list of claims that are included based on the type and additional claims
 - `id` (String) ID of the CI/CD profile
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# CICD Profile can be imported using the CICD Profile Name
+terraform import spirl_cicd_profile.example "my-cicd-profile"
+```

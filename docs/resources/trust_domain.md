@@ -42,3 +42,12 @@ resource "spirl_trust_domain" "my_domain" {
 - `spiffe_bundle_endpoint` (String) The endpoint where the SPIFFE trust bundle can be retrieved
 - `spirl_agent_endpoint` (String) The endpoint used for the SPIRL agent
 - `updated_at` (String) An RFC3339 timestamp for when the trust domain was last updated
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Trust Domain import uses the trust domain id
+terraform import spirl_trust_domain.example "td-123456"
+```

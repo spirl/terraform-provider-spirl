@@ -78,3 +78,15 @@ resource "spirl_cluster" "my_cluster" {
 - `id` (String) The unique identifier for the cluster
 - `version_created_at` (String) An RFC3339 timestamp for when the cluster version was created.
 - `version_id` (String) The version ID of the cluster
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Clusters can be imported using a combination of the trust-domain id
+# and the cluster name separated by a forward slash
+# Trust Domain ID: td-123456
+# Cluster Name: my-cluster-name
+terraform import spirl_cluster.example "td-123456/my-cluster-name"
+```
