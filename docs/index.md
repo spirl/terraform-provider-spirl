@@ -94,3 +94,9 @@ provider "spirl" {}
 - `sa_private_key` (String, Sensitive) The private key for the SPIRL service account. Alternatively provide via the SPIRL_SA_PRIVATE_KEY environment variable. _Never commit your private key contents to Terraform configuration (use file() or environment variable)._
 - `spirlctl_config_path` (String) The path to the configuration file used to store spirlctl login. (Default: ~/.spirl/config.json)
 - `use_tls` (Boolean) Whether or not to use TLS to the SPIRL control plane (default: true)
+
+# Registry
+
+The SPIRL Terraform provider's PGP public key can be found [here](https://github.com/opentofu/registry/blob/main/keys/s/spirl/spirl/provider-1735919600.asc)
+
+This key is required for verifying the authenticity of the Spirl provider when mirroring to private registries or performing manual verification.
