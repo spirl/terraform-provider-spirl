@@ -47,6 +47,8 @@ resource "spirl_cicd_profile" "test" {
 
 Import is supported using the following syntax:
 
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
 ```shell
 # CICD Profile can be imported using the CICD Profile Name
 terraform import spirl_cicd_profile.example "my-cicd-profile"

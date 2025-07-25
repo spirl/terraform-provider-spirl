@@ -63,6 +63,8 @@ Read-Only:
 
 Import is supported using the following syntax:
 
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
+
 ```shell
 # Trust Domain Deployment can be imported using a combination of the trust-domain id
 # and the trust domain deployment name separated by a forward slash

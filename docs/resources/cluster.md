@@ -3,7 +3,15 @@
 page_title: "spirl_cluster Resource - spirl"
 subcategory: ""
 description: |-
-  Creates a cluster within the given trust domain
+  Creates a cluster within the given trust domain. When using
+  Terraform, you will need to generate cluster key pairs yourself. This differs from
+  cluster registration using spirlctl, which generates the key pairs for you.
+  Only Edwards curves (Ed25519) are supported.
+  Here's how to generate a key pair using openssl:
+  
+  openssl genpkey -algorithm ED25519 -out private-key.pem
+  openssl pkey -pubout -in private-key.pem -out cluster-public-key.pem
+  
   -> Note: The SPIRL control-plane accepts a maximum of 10 versions for a cluster.
   If the number of versions exceeds 10, the oldest version is deleted to maintain the limit.
   Agents that are using the deleted version will be unable to authenticate until they are updated to use a newer version.
@@ -11,8 +19,17 @@ description: |-
 
 # spirl_cluster (Resource)
 
-Creates a cluster within the given trust domain
+Creates a cluster within the given trust domain. When using
+Terraform, you will need to generate cluster key pairs yourself. This differs from
+cluster registration using `spirlctl`, which generates the key pairs for you.
+Only Edwards curves (Ed25519) are supported.
 
+Here's how to generate a key pair using `openssl`:
+
+```bash
+openssl genpkey -algorithm ED25519 -out private-key.pem
+openssl pkey -pubout -in private-key.pem -out cluster-public-key.pem
+```
 -> **Note:** The SPIRL control-plane accepts a maximum of 10 versions for a cluster.
 If the number of versions exceeds 10, the oldest version is deleted to maintain the limit.
 Agents that are using the deleted version will be unable to authenticate until they are updated to use a newer version.
@@ -82,6 +99,8 @@ resource "spirl_cluster" "my_cluster" {
 ## Import
 
 Import is supported using the following syntax:
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
 # Clusters can be imported using a combination of the trust-domain id
