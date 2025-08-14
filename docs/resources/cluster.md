@@ -88,7 +88,7 @@ resource "spirl_cluster" "my_cluster" {
 - `description` (String) An optional description of the cluster
 - `num_version_history` (Number) The number of versions to maintain for the cluster (max: 10)
 - `path_template` (String) The path template for the cluster service account (e.g., /my-cluster/ns/{{kubernetes.pod.namespace}}/sa/{{kubernetes.pod.service_account}})
-- `provider_attestation_id` (String) ID of the provider attestation configuration to use for this cluster
+- `provider_attestation` (String) The name of the provider attestation configuration to use for this cluster
 
 ### Read-Only
 
