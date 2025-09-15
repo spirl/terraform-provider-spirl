@@ -30,17 +30,14 @@ resource "spirl_cicd_profile" "test" {
 ### Required
 
 - `name` (String) Name of the CI/CD profile
-- `type` (String) Type of the CI/CD profile. Valid Values:github-hybrid,github-saas,github-self-hosted,gitlab-hybrid,gitlab-saas,gitlab-self-hosted,jenkins
 
 ### Optional
 
-- `additional_claims` (List of String) Additional claims to include in the JWT token
 - `issuer` (String) OIDC Issuer URL to use
 - `jwks_url` (String) JWKS URL to use
 
 ### Read-Only
 
-- `claims` (List of String) The list of claims that are included based on the type and additional claims
 - `id` (String) ID of the CI/CD profile
 
 ## Import
