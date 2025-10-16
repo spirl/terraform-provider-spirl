@@ -17,10 +17,8 @@ Creates a CI/CD profile to use with a cluster. This allows you to map tokens fro
 
 ```terraform
 resource "spirl_cicd_profile" "test" {
-  name              = "my-cicd-profile"
-  type              = "gitlab-hybrid"
-  issuer            = "https://gitlab.com"       // Optional, Required when using an on-prem type
-  additional_claims = ["job_name", "git_commit"] // Optional, Additional claims to include
+  name   = "my-cicd-profile"
+  issuer = "https://gitlab.com"
 }
 ```
 
@@ -29,11 +27,11 @@ resource "spirl_cicd_profile" "test" {
 
 ### Required
 
+- `issuer` (String) OIDC Issuer URL to use
 - `name` (String) Name of the CI/CD profile
 
 ### Optional
 
-- `issuer` (String) OIDC Issuer URL to use
 - `jwks_url` (String) JWKS URL to use
 
 ### Read-Only

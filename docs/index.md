@@ -43,7 +43,7 @@ provider "spirl" {
 Note: Replace the key id and private key with the values from the access key created in step 3.
 
 ```terraform
-# An existing SPIRL trust domain can be used as a data source by providing the name of the domain. The resulting data model is highly similar to a trust domain resource, so the two can be used interchangeably.
+# An existing SPIRL trust domain can be retrieved by providing the domain name of the trust domain. The configuration of the trust domain is available as read-only fields on the data item as demonstrated below.
 
 data "spirl_trust_domain" "existing_domain" {
   domain_name = "example.com"
