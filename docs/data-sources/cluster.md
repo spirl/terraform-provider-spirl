@@ -42,14 +42,16 @@ output "path_template" {
 - `description` (String) An optional description of the cluster
 - `jwt_customization_template` (String) Optional JWT customization template to use for this cluster
 - `path_template` (String) The path template for the cluster service account (e.g., /my-cluster/ns/{{kubernetes.pod.namespace}}/sa/{{kubernetes.pod.service_account}})
-- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux
+- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux.
 - `provider_attestation_id` (String) ID of the provider attestation configuration to use for this cluster
 - `public_key` (String) The PEM formatted public key for the cluster
 - `x509_customization_template` (String) Optional X.509 customization template to use for this cluster
 
 ### Read-Only
 
-- `created_at` (String) An RFC3339 timestamp for when the cluster was created.
+- `created_at` (String) An RFC3339 timestamp for when the cluster was created
 - `id` (String) The unique identifier for the cluster
-- `version_created_at` (String) An RFC3339 timestamp for when the cluster version was created.
+- `realm_id` (String) The ID of the realm this cluster belongs to
+- `realm_name` (String) The name of the realm this cluster belongs to
+- `version_created_at` (String) An RFC3339 timestamp for when the cluster version was created
 - `version_id` (String) The version ID of the cluster

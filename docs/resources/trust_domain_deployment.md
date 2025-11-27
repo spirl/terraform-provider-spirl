@@ -39,25 +39,25 @@ resource "spirl_trust_domain_deployment" "deployment1" {
 
 ### Required
 
-- `keys` (Attributes Map) The authentication keys for the trust domain deployment to communicate with the SPIRL control plane. (see [below for nested schema](#nestedatt--keys))
-- `name` (String) The name of the trust domain deployment.
-- `trust_domain_id` (String) The ID of the trust domain this deployment belongs to.
+- `keys` (Attributes Map) The authentication keys for the trust domain deployment to communicate with the SPIRL control plane (see [below for nested schema](#nestedatt--keys))
+- `name` (String) The name of the trust domain deployment
+- `trust_domain_id` (String) The ID of the trust domain this deployment belongs to
 
 ### Read-Only
 
-- `id` (String) The ID of the trust domain deployment.
+- `id` (String) The ID of the trust domain deployment
 
 <a id="nestedatt--keys"></a>
 ### Nested Schema for `keys`
 
 Required:
 
-- `active` (Boolean) Whether the trust domain key is active (or disabled).
-- `public_key` (String) The public key of the trust domain key.
+- `active` (Boolean) Whether the trust domain key is active (or disabled)
+- `public_key` (String) The public key of the trust domain key
 
 Read-Only:
 
-- `id` (String) The ID of the trust domain key.
+- `id` (String) The ID of the trust domain key
 
 ## Import
 
@@ -70,5 +70,5 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 # and the trust domain deployment name separated by a forward slash
 # Trust Domain ID: td-123456
 # Trust Domain Deployment Name: my-trust-domain-deployment-name
-terraform import spirl_trust_domain_deployment.example "td-123456/my-trust-domain-deployment-name"
+terraform import spirl_trust_domain_deployment.example td-123456/my-trust-domain-deployment-name
 ```

@@ -92,7 +92,7 @@ provider "spirl" {}
 - `endpoint` (String) The SPIRL control plane endpoint and port (default: api.spirl.com:443)
 - `sa_key_id` (String) The key ID for the SPIRL service account. Alternatively provide via the SPIRL_SA_KEY_ID environment variable.
 - `sa_private_key` (String, Sensitive) The private key for the SPIRL service account. Alternatively provide via the SPIRL_SA_PRIVATE_KEY environment variable. _Never commit your private key contents to Terraform configuration (use file() or environment variable)._
-- `spirlctl_config_path` (String) The path to the configuration file used to store spirlctl login. (Default: ~/.spirl/config.json)
+- `spirlctl_config_path` (String) The path to the configuration file used to store spirlctl login (Default: ~/.spirl/config.json)
 - `use_tls` (Boolean) Whether or not to use TLS to the SPIRL control plane (default: true)
 
 ## Signing Keys

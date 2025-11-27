@@ -26,7 +26,7 @@ resource "spirl_provider_attestation_config" "test" {
 
 ### Required
 
-- `name` (String) The name of the provider attestation configuration.
+- `name` (String) The name of the provider attestation configuration
 
 ### Optional
 
@@ -34,7 +34,7 @@ resource "spirl_provider_attestation_config" "test" {
 
 ### Read-Only
 
-- `id` (String) The unique identifier for the provider attestation configuration.
+- `id` (String) The unique identifier for the provider attestation configuration
 
 <a id="nestedblock--aws"></a>
 ### Nested Schema for `aws`
@@ -53,5 +53,5 @@ The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/c
 #!/bin/bash
 
 # Attestation Provider Config can be imported using the Attestation Provider Config Name
-terraform import spirl_provider_attestation_config.example "my-attestation-config"
+terraform import spirl_provider_attestation_config.example my-attestation-config
 ```

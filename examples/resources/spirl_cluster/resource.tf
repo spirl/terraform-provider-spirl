@@ -43,3 +43,41 @@ resource "spirl_cluster" "my_cluster" {
   x509_customization_template = "CN=Test"
   jwt_customization_template  = "namespace={{kubernetes.pod.namespace}},pod_service_account={{kubernetes.pod.service_account}}"
 }
+
+# Cluster in a specific realm
+resource "spirl_realm" "production" {
+  trust_domain_id = data.spirl_trust_domain.existing_domain.id
+  name            = "production"
+}
+
+resource "spirl_cluster" "prod_cluster" {
+  trust_domain_id = data.spirl_trust_domain.existing_domain.id
+  realm_name      = spirl_realm.production.name
+  name            = "prod-k8s-cluster"
+  description     = "A cluster in the production realm"
+  platform        = "k8s"
+  public_key      = file("cluster-public-key.pem")
+  path_template   = "/prod/{{kubernetes.pod.namespace}}/{{kubernetes.pod.service_account}}"
+}
+
+# Cluster with K8s PSAT agent attestation
+# The k8s_psat block configures Kubernetes Projected Service Account Token
+# attestation for the SPIRL agent.
+resource "spirl_cluster" "eks_cluster" {
+  trust_domain_id = data.spirl_trust_domain.existing_domain.id
+  name            = "eks-cluster"
+  description     = "An EKS cluster with PSAT agent attestation"
+  platform        = "k8s"
+
+  k8s_psat {
+    # The OIDC issuer URL for the Kubernetes cluster.
+    # For EKS, this is typically https://oidc.eks.<region>.amazonaws.com/id/<cluster-id>
+    issuer_url = "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLE123"
+
+    # Optional: defaults to "spirl-agent"
+    service_account_name = "spirl-agent"
+
+    # Optional: defaults to "spirl-system"
+    service_account_namespace = "spirl-system"
+  }
+}
