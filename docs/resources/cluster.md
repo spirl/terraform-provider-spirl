@@ -154,12 +154,9 @@ resource "spirl_cluster" "eks_cluster" {
 <a id="nestedblock--k8s_psat"></a>
 ### Nested Schema for `k8s_psat`
 
-Required:
-
-- `issuer_url` (String) The OIDC issuer URL for the Kubernetes cluster. For EKS, this is typically `https://oidc.eks.<region>.amazonaws.com/id/<cluster-id>`.
-
 Optional:
 
+- `issuer_url` (String) The OIDC issuer URL for the Kubernetes cluster. For EKS, this is typically `https://oidc.eks.<region>.amazonaws.com/id/<cluster-id>`. Required when the k8s_psat block is specified.
 - `service_account_name` (String) The name of the Kubernetes service account used by the SPIRL agent (optional - defaults to spirl-agent).
 - `service_account_namespace` (String) The namespace where the SPIRL agent service account is located (optional - defaults to spirl-system).
 
