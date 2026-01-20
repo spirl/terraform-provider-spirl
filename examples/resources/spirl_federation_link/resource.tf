@@ -7,13 +7,11 @@ resource "spirl_federation_link" "test" {
 
 resource "spirl_trust_domain" "my_domain" {
   domain_name = "my-trust-domain.internal"
-  description = "A self-hosted trust domain created with terraform"
-  self_hosted = false
+  description = "A trust domain created with terraform"
 }
 
 
 resource "spirl_trust_domain" "foreign_domain" {
   domain_name = "foreign-trust-domain.internal"
   description = "A trust domain created with terraform"
-  self_hosted = false
 }

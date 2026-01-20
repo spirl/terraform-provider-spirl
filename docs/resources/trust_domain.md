@@ -30,7 +30,7 @@ resource "spirl_trust_domain" "my_domain" {
 ### Optional
 
 - `description` (String) An optional description of the trust domain
-- `self_hosted` (Boolean) Whether the trust domain is self-hosted
+- `self_hosted` (Boolean) Whether the trust domain is self-hosted (default is true)
 
 ### Read-Only
 
