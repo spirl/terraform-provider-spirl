@@ -13,10 +13,23 @@ Provisions a SPIFFE trust domain with domain_name inside SPIRL.
 ## Example Usage
 
 ```terraform
-# A SPIRL trust domain can be created using a trust domain resource. Alternatively, an existing trust domain can be used via the trust domain data source.
+# Create a trust domain with defaults.
 resource "spirl_trust_domain" "my_domain" {
   domain_name = "example.com"
   description = "A trust domain created with Terraform"
+}
+
+# A trust domain with a custom JWT issuer URL.
+resource "spirl_trust_domain" "custom_issuer" {
+  domain_name     = "example.com"
+  jwt_issuer_mode = "custom"
+  jwt_issuer      = "https://oidc.example.com"
+}
+
+# A trust domain with the JWT issuer explicitly disabled.
+resource "spirl_trust_domain" "no_issuer" {
+  domain_name     = "example.com"
+  jwt_issuer_mode = "disabled"
 }
 ```
 
@@ -30,6 +43,8 @@ resource "spirl_trust_domain" "my_domain" {
 ### Optional
 
 - `description` (String) An optional description of the trust domain
+- `jwt_issuer` (String) The JWT-SVID issuer URL. Required when `jwt_issuer_mode` is `custom`. When the mode is `builtin`, this is computed to reflect the effective builtin issuer URL.
+- `jwt_issuer_mode` (String) The JWT issuer configuration mode. One of: `builtin` (default), `disabled`, or `custom`. When set to `custom`, `jwt_issuer` must also be provided.
 - `self_hosted` (Boolean) Whether the trust domain is self-hosted (default is true)
 
 ### Read-Only
@@ -37,7 +52,6 @@ resource "spirl_trust_domain" "my_domain" {
 - `created_at` (String) An RFC3339 timestamp for when the trust domain was created
 - `id` (String) The unique identifier for the trust domain
 - `jwks_endpoint` (String) The endpoint where the JWT-SVID JWKS can be retrieved
-- `jwt_issuer` (String) The identifier of the JWT-SVID issuer
 - `oidc_discovery_endpoint` (String) The endpoint for OIDC discovery
 - `spiffe_bundle_endpoint` (String) The endpoint where the SPIFFE trust bundle can be retrieved
 - `spirl_agent_endpoint` (String) The endpoint used for the SPIRL agent
