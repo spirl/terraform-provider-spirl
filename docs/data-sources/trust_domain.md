@@ -3,12 +3,12 @@
 page_title: "spirl_trust_domain Data Source - spirl"
 subcategory: ""
 description: |-
-  
+  Looks up a trust domain by name. Resolution uses ListTrustDomains with dynamic data on the server; this data source only exposes stable trust domain metadata (endpoints, issuer mode), not live cluster counts.
 ---
 
 # spirl_trust_domain (Data Source)
 
-
+Looks up a trust domain by name. Resolution uses ListTrustDomains with dynamic data on the server; this data source only exposes stable trust domain metadata (endpoints, issuer mode), not live cluster counts.
 
 ## Example Usage
 

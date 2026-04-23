@@ -26,7 +26,7 @@ resource "spirl_cluster_config" "cluster_configs" {
             requiredAttestors:
               - type: k8s_token
                 config:
-                  issuerUrl: https://oidc.eks.us-east-1.amazonaws.com/id/ABCDEF123456
+                  issuerURL: https://oidc.eks.us-east-1.amazonaws.com/id/ABCDEF123456
     YAML
 
     AttributeRedaction = <<-YAML

@@ -139,7 +139,7 @@ resource "spirl_cluster" "eks_cluster" {
 - `num_version_history` (Number) The number of versions to maintain for the cluster (max: 10)
 - `path_template` (String) The path template for the cluster service account (e.g., /my-cluster/ns/{{kubernetes.pod.namespace}}/sa/{{kubernetes.pod.service_account}})
 - `provider_attestation_id` (String) ID of the provider attestation configuration to use for this cluster
-- `public_key` (String) The PEM formatted public key for the cluster. Required unless `k8s_psat` is configured.
+- `public_key` (String) The PEM formatted public key for the cluster. Optional; only needed when agents authenticate using a cluster key pair rather than agent attestation (i.e. when not setting a `spirl_cluster_config` `AgentAttestation` section).
 - `realm_name` (String) The name of the realm this cluster belongs to (optional)
 - `x509_customization_template` (String) Optional X.509 customization template to use for this cluster
 
