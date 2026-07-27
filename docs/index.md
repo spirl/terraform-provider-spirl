@@ -34,6 +34,7 @@ spirlctl iam service-account key add --service-account terra
 4. Configure the Terraform provider by creating a `main.tf` file with the following content:
 
 ```terraform
+# Service account key authentication
 provider "spirl" {
   sa_key_id      = "sak-abcd1234"
   sa_private_key = file("path/to/private-key.pem")
@@ -69,9 +70,27 @@ terraform apply
 ### Standard Configuration
 
 ```terraform
+# Service account key authentication
 provider "spirl" {
   sa_key_id      = "sak-abcd1234"
   sa_private_key = file("path/to/private-key.pem")
+}
+```
+
+### WIF Authentication
+
+```terraform
+# WIF authentication — for Terraform Cloud or CI/CD pipelines.
+# Alternatively set SPIRL_SERVICE_ACCOUNT_ID and SPIRL_OIDC_TOKEN env vars.
+variable "oidc_token" {
+  description = "OIDC token issued by the workload's identity provider."
+  type        = string
+  sensitive   = true
+}
+
+provider "spirl" {
+  service_account_id = "sa-1234567890"
+  oidc_token         = var.oidc_token
 }
 ```
 
@@ -90,8 +109,10 @@ provider "spirl" {}
 ### Optional
 
 - `endpoint` (String) The SPIRL control plane endpoint and port (default: api.spirl.com:443)
+- `oidc_token` (String, Sensitive) The OIDC bearer token to exchange for a SPIRL session. Alternatively set via `SPIRL_OIDC_TOKEN`. Mutually exclusive with `sa_key_id`/`sa_private_key`. _Prefer the environment variable form — never commit a token to Terraform configuration or version control._
 - `sa_key_id` (String) The key ID for the SPIRL service account. Alternatively provide via the SPIRL_SA_KEY_ID environment variable.
 - `sa_private_key` (String, Sensitive) The private key for the SPIRL service account. Alternatively provide via the SPIRL_SA_PRIVATE_KEY environment variable. _Never commit your private key contents to Terraform configuration (use file() or environment variable)._
+- `service_account_id` (String) The SPIRL service account ID for WIF-based authentication. Alternatively set via `SPIRL_SERVICE_ACCOUNT_ID`. Mutually exclusive with `sa_key_id`/`sa_private_key`.
 - `spirlctl_config_path` (String) The path to the configuration file used to store spirlctl login (Default: ~/.spirl/config.json)
 - `use_tls` (Boolean) Whether or not to use TLS to the SPIRL control plane (default: true)
 

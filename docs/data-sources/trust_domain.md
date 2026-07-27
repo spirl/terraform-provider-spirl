@@ -38,6 +38,10 @@ output "agent_endpoint" {
 - `jwks_endpoint` (String) The endpoint where the JWT-SVID JWKS can be retrieved
 - `jwt_issuer` (String) The effective JWT-SVID issuer URL
 - `jwt_issuer_mode` (String) The current JWT issuer configuration mode. One of: `builtin`, `disabled`, or `custom`.
+- `oauth_issuer` (String) The effective OAuth access-token issuer URL. Empty unless OAuth token issuance is enabled.
+- `oauth_issuer_mode` (String) The current OAuth issuer configuration mode. One of: `builtin`, `disabled`, or `custom`. Empty unless OAuth token issuance is enabled.
+- `oauth_jwks_endpoint` (String) The endpoint where the OAuth JWKS can be retrieved. Empty unless OAuth token issuance is enabled; may 404 until the OAuth JWKS is first published.
+- `oauth_oidc_discovery_endpoint` (String) The endpoint for OAuth issuer OIDC discovery. Empty unless OAuth token issuance is enabled.
 - `oidc_discovery_endpoint` (String) The endpoint for OIDC discovery
 - `spiffe_bundle_endpoint` (String) The endpoint where the SPIFFE trust bundle can be retrieved
 - `spirl_agent_endpoint` (String) The endpoint used for the SPIRL agent

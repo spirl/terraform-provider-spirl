@@ -45,6 +45,8 @@ resource "spirl_trust_domain" "no_issuer" {
 - `description` (String) An optional description of the trust domain
 - `jwt_issuer` (String) The JWT-SVID issuer URL. Required when `jwt_issuer_mode` is `custom`. When the mode is `builtin`, this is computed to reflect the effective builtin issuer URL.
 - `jwt_issuer_mode` (String) The JWT issuer configuration mode. One of: `builtin` (default), `disabled`, or `custom`. When set to `custom`, `jwt_issuer` must also be provided.
+- `oauth_issuer` (String) The OAuth access-token issuer URL. Required when `oauth_issuer_mode` is `custom`. When the mode is `builtin`, this is computed to reflect the effective builtin issuer URL. When OAuth token issuance is disabled, this retains any configured value rather than being cleared.
+- `oauth_issuer_mode` (String) The OAuth issuer configuration mode. One of: `builtin` (default), `disabled`, or `custom`. When set to `custom`, `oauth_issuer` must also be provided.
 - `self_hosted` (Boolean) Whether the trust domain is self-hosted (default is true)
 
 ### Read-Only
@@ -52,6 +54,8 @@ resource "spirl_trust_domain" "no_issuer" {
 - `created_at` (String) An RFC3339 timestamp for when the trust domain was created
 - `id` (String) The unique identifier for the trust domain
 - `jwks_endpoint` (String) The endpoint where the JWT-SVID JWKS can be retrieved
+- `oauth_jwks_endpoint` (String) The endpoint where the OAuth JWKS can be retrieved. Empty unless OAuth token issuance is enabled; may 404 until the OAuth JWKS is first published.
+- `oauth_oidc_discovery_endpoint` (String) The endpoint for OAuth issuer OIDC discovery. Empty unless OAuth token issuance is enabled.
 - `oidc_discovery_endpoint` (String) The endpoint for OIDC discovery
 - `spiffe_bundle_endpoint` (String) The endpoint where the SPIFFE trust bundle can be retrieved
 - `spirl_agent_endpoint` (String) The endpoint used for the SPIRL agent
