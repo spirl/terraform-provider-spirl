@@ -22,9 +22,12 @@ resource "spirl_org_wif_issuer" "github" {
   issuer_url = "https://token.actions.githubusercontent.com"
 }
 
-# Authenticate a specific repository branch
+data "spirl_service_account" "deployer" {
+  name = "my-deployer-sa"
+}
+
 resource "spirl_service_account_wif_config" "deployer" {
-  service_account_id  = "sa-1234567890"
+  service_account_id  = data.spirl_service_account.deployer.id
   org_wif_issuer_name = spirl_org_wif_issuer.github.name
 
   claims = {
@@ -52,7 +55,7 @@ resource "spirl_service_account_wif_config" "internal_sa" {
 ### Required
 
 - `org_wif_issuer_name` (String) The name of the `spirl_org_wif_issuer` to use for token validation.
-- `service_account_id` (String) The ID of the service account (`sa-*`). Changing this destroys and recreates the resource.
+- `service_account_id` (String) The ID of the service account (`sa-*`). Changing this destroys and recreates the resource. Use the `spirl_service_account` data source to look up an ID by name.
 
 ### Optional
 
