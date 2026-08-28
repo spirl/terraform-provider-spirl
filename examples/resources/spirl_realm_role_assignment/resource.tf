@@ -14,3 +14,12 @@ resource "spirl_realm_role_assignment" "sa_admin" {
   service_account_name = "automation-sa"
 }
 
+# Assign a realm role to an IdP group; members of the group inherit the role
+# at login based on the groups on their session
+resource "spirl_realm_role_assignment" "group_admin" {
+  trust_domain_id = spirl_trust_domain.my_domain.id
+  realm_name      = spirl_realm.production.name
+  role_name       = "Administrator"
+  idp_group       = "platform-team"
+}
+

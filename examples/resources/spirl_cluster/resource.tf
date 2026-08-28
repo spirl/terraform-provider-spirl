@@ -60,6 +60,66 @@ resource "spirl_cluster" "prod_cluster" {
   path_template   = "/prod/{{kubernetes.pod.namespace}}/{{kubernetes.pod.service_account}}"
 }
 
+# Serverless cluster (agentless, keyless, versionless).
+#
+# Workloads attest per request through a Serverless SDK rather than via an
+# installed agent, so a serverless cluster takes no public_key, path_template,
+# customization templates, k8s_psat block or num_version_history -- the API
+# rejects all of them. SPIFFE ID paths come from the pathTemplate inside the
+# cluster's ServerlessAttestation policy instead.
+#
+# Requires the serverless_realm_enabled feature flag for your organization.
+resource "spirl_realm" "serverless" {
+  trust_domain_id = data.spirl_trust_domain.existing_domain.id
+  name            = "serverless"
+}
+
+resource "spirl_cluster" "serverless_cluster" {
+  trust_domain_id = data.spirl_trust_domain.existing_domain.id
+  realm_name      = spirl_realm.serverless.name
+  name            = "lambda-workloads"
+  description     = "An agentless serverless cluster"
+  platform        = "serverless"
+}
+
+# The attestation policy is applied as a normal configuration section. On a realm
+# cluster the pathTemplate must be realm-first.
+resource "spirl_cluster_config" "serverless_cluster" {
+  cluster_id = spirl_cluster.serverless_cluster.id
+
+  sections = {
+    "ServerlessAttestation" = <<-YAML
+      section: ServerlessAttestation
+      schema: v1
+      spec:
+        policies:
+          - name: aws-lambda
+            svidPolicy:
+              pathTemplate: "/{{realm.name}}/aws/{{aws_token.account.id}}"
+            requiredAttestors:
+              - type: aws_token
+                config:
+                  issuerURLs:
+                    - "https://sts.amazonaws.com/123456789012"
+    YAML
+  }
+}
+
+# Serverless clusters cannot be changed in place: the API has no update
+# operation for them, so altering one requires replacing the resource, which
+# leaves a window where the cluster issues no SVIDs.
+#
+# Two state quirks to expect on a serverless cluster, neither of which affects
+# issuance:
+#
+#   * version_id and version_created_at are always null, because serverless
+#     clusters have no cluster version.
+#   * num_version_history always reads back as 10, its schema default, even
+#     though a versionless cluster retains no versions. It is inert, and it must
+#     stay at the default rather than null: Terraform applies the default
+#     whenever the config value is null, so a null in state would leave a
+#     permanent diff that no apply could resolve.
+
 # Cluster with K8s PSAT agent attestation
 # The k8s_psat block configures Kubernetes Projected Service Account Token
 # attestation for the SPIRL agent.

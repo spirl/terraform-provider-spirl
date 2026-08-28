@@ -42,7 +42,7 @@ output "path_template" {
 - `description` (String) An optional description of the cluster
 - `jwt_customization_template` (String) Optional JWT customization template to use for this cluster
 - `path_template` (String) The path template for the cluster service account (e.g., /my-cluster/ns/{{kubernetes.pod.namespace}}/sa/{{kubernetes.pod.service_account}})
-- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux.
+- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux, serverless.
 - `provider_attestation_id` (String) ID of the provider attestation configuration to use for this cluster
 - `public_key` (String) The PEM formatted public key for the cluster
 - `x509_customization_template` (String) Optional X.509 customization template to use for this cluster

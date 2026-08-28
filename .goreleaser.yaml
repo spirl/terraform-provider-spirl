@@ -28,11 +28,13 @@ builds:
     binary: "{{ .ProjectName }}_v{{ .Version }}"
 archives:
   - id: terraform-provider-spirl
-    format: zip
+    formats:
+    - zip
     # This is the format that terraform registries expect
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
   - id: terraform-provider-spirl-s3
-    format: tar.gz
+    formats:
+    - tar.gz
     # This is the format that we use for other assets on S3
     name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
 checksum:
