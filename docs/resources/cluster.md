@@ -15,6 +15,15 @@ description: |-
   -> Note: The SPIRL control-plane accepts a maximum of 10 versions for a cluster.
   If the number of versions exceeds 10, the oldest version is deleted to maintain the limit.
   Agents that are using the deleted version will be unable to authenticate until they are updated to use a newer version.
+  Platforms
+  Every platform except serverless sets a default SPIFFE ID and which attributes a path template may use. Registering a cluster generates no install. The platform is stored with the cluster, though, and selects the agent settings in any install generated for it later, so choose the one that matches the cluster.
+  
+  k8s: Kubernetes. The default SPIFFE ID is /<cluster name>/ns/<namespace>/sa/<service account>, prefixed with /<realm name> in a realm.
+  istio: Kubernetes with Istio. The default SPIFFE ID is /ns/<namespace>/sa/<service account>, the shape Istio requires. Realms are not supported.
+  eks: Same default SPIFFE ID as k8s.
+  eks-istio: Same default SPIFFE ID as istio. Realms are not supported.
+  linux: Linux hosts running the agent directly. The default SPIFFE ID is /<node group>/<Linux user>, prefixed with /<realm name> in a realm.
+  serverless: Serverless workloads running in an agentless environment. No agent or key pair. There is no default SPIFFE ID, so the serverless attestation policy must set a path template.
 ---
 
 # spirl_cluster (Resource)
@@ -30,9 +39,26 @@ Here's how to generate a key pair using `openssl`:
 openssl genpkey -algorithm ED25519 -out private-key.pem
 openssl pkey -pubout -in private-key.pem -out cluster-public-key.pem
 ```
+
 -> **Note:** The SPIRL control-plane accepts a maximum of 10 versions for a cluster.
 If the number of versions exceeds 10, the oldest version is deleted to maintain the limit.
 Agents that are using the deleted version will be unable to authenticate until they are updated to use a newer version.
+
+## Platforms
+
+Every platform except serverless sets a default SPIFFE ID and which attributes a path template may use. Registering a cluster generates no install. The platform is stored with the cluster, though, and selects the agent settings in any install generated for it later, so choose the one that matches the cluster.
+
+- `k8s`: Kubernetes. The default SPIFFE ID is `/<cluster name>/ns/<namespace>/sa/<service account>`, prefixed with `/<realm name>` in a realm.
+
+- `istio`: Kubernetes with Istio. The default SPIFFE ID is `/ns/<namespace>/sa/<service account>`, the shape Istio requires. Realms are not supported.
+
+- `eks`: Same default SPIFFE ID as `k8s`.
+
+- `eks-istio`: Same default SPIFFE ID as `istio`. Realms are not supported.
+
+- `linux`: Linux hosts running the agent directly. The default SPIFFE ID is `/<node group>/<Linux user>`, prefixed with `/<realm name>` in a realm.
+
+- `serverless`: Serverless workloads running in an agentless environment. No agent or key pair. There is no default SPIFFE ID, so the serverless attestation policy must set a path template.
 
 ## Example Usage
 
@@ -188,7 +214,7 @@ resource "spirl_cluster" "eks_cluster" {
 ### Required
 
 - `name` (String) The name of cluster
-- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux, serverless.
+- `platform` (String) The platform of the cluster. The valid values are: k8s, istio, eks, eks-istio, linux, serverless. See Platforms in the `spirl_cluster` resource docs for what each one selects.
 - `trust_domain_id` (String) The trust domain ID for the cluster
 
 ### Optional
