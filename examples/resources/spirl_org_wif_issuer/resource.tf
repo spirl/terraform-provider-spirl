@@ -11,7 +11,7 @@ resource "spirl_org_wif_issuer" "custom" {
   jwks_url   = "https://idp.example.com/.well-known/jwks.json"
 }
 
-# Issuer with PEM-encoded public key (sensitive, write-only)
+# Issuer with PEM-encoded public key
 resource "spirl_org_wif_issuer" "internal" {
   name       = "internal-issuer"
   issuer_url = "https://internal-idp.example.com"

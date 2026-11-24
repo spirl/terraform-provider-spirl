@@ -60,6 +60,8 @@ release:
     - glob: "terraform-registry-manifest.json"
       name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
   draft: false
+  # An older-line release (RELEASE_IS_NEWEST=false) must not take the "Latest" marker.
+  make_latest: '{{ if eq (envOrDefault "RELEASE_IS_NEWEST" "true") "false" }}false{{ end }}'
   replace_existing_draft: true
   replace_existing_artifacts: true
   github: # Github actions runs in the monorepo, we want to public to the public repository

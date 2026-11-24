@@ -14,7 +14,7 @@ At most one key source (`oidc_uri`, `jwks_url`, `jwks`, `jwks_pem`) may be set. 
 
 -> **Note:** The `name` attribute acts as the upsert key. Changing `name` will destroy and recreate the resource.
 
-~> **Warning:** The `jwks_pem` value cannot be retrieved from the API after it is written. If you import an issuer that uses `jwks_pem`, you must add the value to your configuration and re-apply to resolve the state diff.
+~> **Warning:** The API still hides `jwks_pem` keys saved before it accepted only public keys. If you import one of those issuers, add the PEM-encoded public key to your configuration and re-apply to resolve the state diff.
 
 ## Example Usage
 
@@ -32,7 +32,7 @@ resource "spirl_org_wif_issuer" "custom" {
   jwks_url   = "https://idp.example.com/.well-known/jwks.json"
 }
 
-# Issuer with PEM-encoded public key (sensitive, write-only)
+# Issuer with PEM-encoded public key
 resource "spirl_org_wif_issuer" "internal" {
   name       = "internal-issuer"
   issuer_url = "https://internal-idp.example.com"
@@ -50,8 +50,8 @@ resource "spirl_org_wif_issuer" "internal" {
 
 ### Optional
 
-- `jwks` (String) Inline JWKS JSON document. Mutually exclusive with `oidc_uri`, `jwks_url`, and `jwks_pem`. Stored in Terraform state in plaintext — prefer `jwks_pem` if the document contains sensitive material.
-- `jwks_pem` (String, Sensitive) PEM-encoded public key(s). Sensitive — the API does not return this value after write. Mutually exclusive with `oidc_uri`, `jwks_url`, and `jwks`.
+- `jwks` (String) Inline JWKS JSON document. Mutually exclusive with `oidc_uri`, `jwks_url`, and `jwks_pem`.
+- `jwks_pem` (String) PEM-encoded public key(s). Mutually exclusive with `oidc_uri`, `jwks_url`, and `jwks`.
 - `jwks_url` (String) URL of the JWKS endpoint. Mutually exclusive with `oidc_uri`, `jwks`, and `jwks_pem`.
 - `oidc_uri` (String) Override URL for OIDC discovery (`.well-known/openid-configuration`). Mutually exclusive with `jwks_url`, `jwks`, and `jwks_pem`.
 
